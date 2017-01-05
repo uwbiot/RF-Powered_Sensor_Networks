@@ -31,7 +31,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- * @(#) $Header: /cvsroot/nsnam/ns-2/common/packet.h,v 1.107 2010/05/09 22:28:41 tom_henderson Exp $ (LBL)
+ * @(#) $Header: /cvsroot/nsnam/ns-2/common/packet.h,v 1.103 2009/01/15 06:23:49 tom_henderson Exp $ (LBL)
  */
 
 #ifndef ns_packet_h
@@ -54,7 +54,6 @@
 #define HDR_ARP(p)      (hdr_arp::access(p))
 #define HDR_MAC(p)      (hdr_mac::access(p))
 #define HDR_MAC802_11(p) ((hdr_mac802_11 *)hdr_mac::access(p))
-#define HDR_MACRFID(p)  ((hdr_macRfid *)hdr_mac::access(p))
 #define HDR_MAC_TDMA(p) ((hdr_mac_tdma *)hdr_mac::access(p))
 #define HDR_SMAC(p)     ((hdr_smac *)hdr_mac::access(p))
 #define HDR_LL(p)       (hdr_ll::access(p))
@@ -183,25 +182,20 @@ static const packet_t PT_BLTRACE = 60;
 	// AOMDV packet
 static const packet_t PT_AOMDV = 61;
 
-        // PUMA packet
-static const packet_t PT_PUMA = 62;
-
-        // DCCP packets
-static const packet_t PT_DCCP = 63;
-static const packet_t PT_DCCP_REQ = 64;
-static const packet_t PT_DCCP_RESP = 65;
-static const packet_t PT_DCCP_ACK = 66;
-static const packet_t PT_DCCP_DATA = 67;
-static const packet_t PT_DCCP_DATAACK = 68;
-static const packet_t PT_DCCP_CLOSE  = 69;
-static const packet_t PT_DCCP_CLOSEREQ = 70;
-static const packet_t PT_DCCP_RESET = 71;
-
-        // M-DART packets
-static const packet_t PT_MDART = 72;
-static const packet_t PT_RFIDPACKET = 73;
         // insert new packet types here
-static packet_t       PT_NTYPE = 74; // This MUST be the LAST one
+// yang- 09/03/2009
+static const packet_t PT_NRR = 62;
+// -yang
+// yang- 09/21/2009
+static const packet_t PT_NRRROUTING = 63;
+// -yang
+static const packet_t PT_CHARGING = 64;
+static const packet_t PT_CHARGINGRT = 65;
+static const packet_t PT_RILAGENT = 66;
+
+	// yanjun gpsr
+static const packet_t PT_GPSR = 67;
+static packet_t       PT_NTYPE = 68; // This MUST be the LAST one
 
 enum packetClass
 {
@@ -259,17 +253,14 @@ public:
 		         (type) == PT_ACK || \
 		         (type) == PT_SCTP || \
 		         (type) == PT_SCTP_APP1 || \
-			 (type) == PT_RFIDPACKET || \
-			 (type) == PT_HDLC \
+		         (type) == PT_HDLC \
 		        );
 	}
 	static packetClass classify(packet_t type) {		
 		if (type == PT_DSR || 
 		    type == PT_MESSAGE || 
-		    type == PT_TORA ||
-		    type == PT_PUMA ||
-		    type == PT_AODV ||
-		    type == PT_MDART)
+		    type == PT_TORA || 
+		    type == PT_AODV)
 			return ROUTING;		
 		if (type == PT_TCP || 
 		    type == PT_TELNET || 
@@ -348,8 +339,10 @@ public:
 		name_[PT_TORA]= "TORA";
 		name_[PT_DSR]= "DSR";
 		name_[PT_AODV]= "AODV";
-		name_[PT_MDART]= "MDART";
 		name_[PT_IMEP]= "IMEP";
+
+		//yanjun
+		name_[PT_GPSR]= "GPSR";
 
 		name_[PT_RAP_DATA] = "rap_data";
 		name_[PT_RAP_ACK] = "rap_ack";
@@ -357,6 +350,7 @@ public:
  		name_[PT_TFRC]= "tcpFriend";
 		name_[PT_TFRC_ACK]= "tcpFriendCtl";
 		name_[PT_PING]="ping";
+	
 		name_[PT_PBC] = "PBC";
 
 	 	/* For diffusion : Chalermek */
@@ -403,23 +397,17 @@ public:
 		
 		// AOMDV patch
 		name_[PT_AOMDV]= "AOMDV";
-
-		// PUMA
-		name_[PT_PUMA]="PUMA";
-
-		// DCCP
-		name_[PT_DCCP]="DCCP";
-		name_[PT_DCCP_REQ]="DCCP_Request";
-		name_[PT_DCCP_RESP]="DCCP_Response";
-		name_[PT_DCCP_ACK]="DCCP_Ack";
-		name_[PT_DCCP_DATA]="DCCP_Data";
-		name_[PT_DCCP_DATAACK]="DCCP_DataAck";
-		name_[PT_DCCP_CLOSE]="DCCP_Close";
-		name_[PT_DCCP_CLOSEREQ]="DCCP_CloseReq";
-		name_[PT_DCCP_RESET]="DCCP_Reset";
-		/*SUPORTE A RFID*/
-		name_[PT_RFIDPACKET]="rfidPacket";
-
+		// yang- 09/03/2009
+		name_[PT_NRR] = "NRR";
+		// -yang
+		// yang- 09/21/2009
+		name_[PT_NRRROUTING] = "NRRRouting";
+		// -yang
+		// yang- 04/20/2010
+		name_[PT_CHARGING] = "Charging";
+		name_[PT_CHARGINGRT] = "ChargingRT";
+		name_[PT_RILAGENT] = "RILAgent";
+		// -yang
 		name_[PT_NTYPE]= "undefined";
 	}
 	static int addPacket(char *name);
@@ -428,10 +416,26 @@ public:
 		for(unsigned int i = 0; i < nPkt_; i++)
 		{
 		        if(strcmp(name, name_[i]) == 0)
-				return i;
+		                return i;
 		}
 		return PT_NTYPE;
-
+#if 0
+	const char* name(packet_t p) const { 
+		if ( p <= PT_NTYPE ) return name_[p];
+		return 0;
+	}
+	static bool data_packet(packet_t type) {
+		return ( (type) == PT_TCP || \
+			 (type) == PT_TELNET || \
+			 (type) == PT_CBR || \
+			 (type) == PT_AUDIO || \
+			 (type) == PT_VIDEO || \
+			 (type) == PT_ACK || \
+			 (type) == PT_SCTP || \
+			 (type) == PT_SCTP_APP1 || \
+			 (type) == PT_HDLC \
+			);
+#endif
 	}
 private:
 	static char** name_;
@@ -500,10 +504,12 @@ protected:
 	int	ref_count_;	// free the pkt until count to 0
 public:
 	Packet* next_;		// for queues and the free list
+	Packet* link_next_; // for superposition, queue for each link
+	Packet* colliding_pkt_;
 	static int hdrlen_;
 
 	Packet() : bits_(0), data_(0), ref_count_(0), next_(0) { }
-	inline unsigned char* bits() { return (bits_); }
+	inline unsigned char* const bits() { return (bits_); }
 	inline Packet* copy() const;
 	inline Packet* refcopy() { ++ref_count_; return this; }
 	inline int& ref_count() { return (ref_count_); }
@@ -580,7 +586,7 @@ public:
 	iface_literal(const iface_constant i, const char * const n) : 
 		value_(i), name_(n) {}
 	inline int value() const { return value_; }
-	inline const char * name() const { return name_; }
+	inline const char * const name() const { return name_; }
 private:
 	const iface_constant value_;
 	/* strings used in TCL to access those special values */
@@ -651,6 +657,40 @@ struct hdr_cmn {
 	inline static hdr_cmn* access(const Packet* p) {
 		return (hdr_cmn*) p->access(offset_);
 	}
+
+	int missed_transmitting_pkt_;
+	int is_xmac_preamble_;
+	//
+	// bug fix for capture effect at MAC
+	int below_cs_threshold_;
+	double arrival_time_;
+	// bug fix for capture effect at MAC
+	int macCtlPktSender_; // for CTS and ACK
+	int my_flag_;
+	int my_command_;
+	int hoplist_[16]; // which hops have been traversed
+	int cur_hop_index_;
+	double expected_pdr_; //
+	inline double& expected_pdr(){return expected_pdr_;}
+	double ave_pdr_; //
+	inline double& ave_pdr(){return ave_pdr_;}
+	int salvage_req_num_; // #number of Route Requests generated for this packet
+	inline int& salvage_req_num() { return (salvage_req_num_); }
+	int suspicious_; // a route error or a suspicious link notif
+	inline int& suspicious() { return (suspicious_); }
+	int suspiciousaware_; // indicate that the sender is aware of the suspicious link
+	inline int& suspiciousaware() { return (suspiciousaware_); }
+	int rerrmarked_; 
+	inline int& rerrmarked() { return (rerrmarked_); }
+	double mac_recv_time_; // time when a packet is received at MAC from upper later
+	inline double& mac_recv_time(){return mac_recv_time_;}
+	double recv_time_;
+	inline double& recv_time() { return (recv_time_); }
+	//to be used later
+	double passive_recv_time_;
+	inline double& passive_recv_time() { return (passive_recv_time_); }
+	int failed_transmissions_;
+	inline int& failed_transmissions() { return (failed_transmissions_); }
 	
         /* per-field member functions */
 	inline packet_t& ptype() { return (ptype_); }
@@ -743,34 +783,11 @@ inline Packet* Packet::alloc(int n)
 	return (p);
 }
 
-#include "dccp/dccp_packets.h"
 
 inline void Packet::free(Packet* p)
 {
-        hdr_dccp *dccph;
 	if (p->fflag_) {
 		if (p->ref_count_ == 0) {
- 
-                        //free DCCP options on dropped packets
-                        switch (HDR_CMN(p)->ptype_){
-                        case PT_DCCP:
-                        case PT_DCCP_REQ:
-                        case PT_DCCP_RESP:
-                        case PT_DCCP_ACK:
-                        case PT_DCCP_DATA:
-                        case PT_DCCP_DATAACK:
-                        case PT_DCCP_CLOSE:
-                        case PT_DCCP_CLOSEREQ:
-                        case PT_DCCP_RESET:
-                                dccph = hdr_dccp::access(p);
-                                if (dccph->options_ != NULL){
-                                        delete (dccph->options_);
-                                }
-                                break;
-                        default:
-                                ;
-                        }
-
 			/*
 			 * A packet's uid may be < 0 (out of a event queue), or
 			 * == 0 (newed but never gets into the event queue.
@@ -793,30 +810,9 @@ inline void Packet::free(Packet* p)
 
 inline Packet* Packet::copy() const
 {
-        hdr_dccp *dccph, *dccph_p;
+	
 	Packet* p = alloc();
 	memcpy(p->bits(), bits_, hdrlen_);
- 
-        //copy DCCP options_, since it is a pointer
-        switch (HDR_CMN(this)->ptype_){
-        case PT_DCCP:
-        case PT_DCCP_REQ:
-        case PT_DCCP_RESP:
-        case PT_DCCP_ACK:
-        case PT_DCCP_DATA:
-        case PT_DCCP_DATAACK:
-        case PT_DCCP_CLOSE:
-        case PT_DCCP_CLOSEREQ:
-        case PT_DCCP_RESET:
-                dccph = hdr_dccp::access(this);
-                dccph_p = hdr_dccp::access(p);
-                if (dccph->options_ != NULL)
-                        dccph_p->options_ = new DCCPOptions(*dccph->options_);
-                break;
-        default:
-                ;
-        }
- 
 	if (data_) 
 		p->data_ = data_->copy();
 	p->txinfo_.init(&txinfo_);

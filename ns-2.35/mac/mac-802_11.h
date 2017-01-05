@@ -31,10 +31,14 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- * $Header: /cvsroot/nsnam/ns-2/mac/mac-802_11.h,v 1.30 2010/03/08 05:54:52 tom_henderson Exp $
+ * $Header: /cvsroot/nsnam/ns-2/mac/mac-802_11.h,v 1.29 2008/12/13 23:22:58 tom_henderson Exp $
  *
  * Ported from CMU/Monarch's code, nov'98 -Padma.
  * wireless-mac-802_11.h
+ *
+ * Improved by Yanjun at the Monarch group of Rice University
+ * for asynchronous duty cycle MAC protocols in wireless 
+ * sensor networks, 2009
  */
 
 #ifndef ns_mac_80211_h
@@ -49,6 +53,13 @@
 #include <math.h>
 #include <stddef.h>
 #include <list>
+//#include <yjrouteflip.h>
+#include <dsr-priqueue.h>
+
+#undef YJ_BMAC_SUPPORT
+#define YJ_QUEUED_PKT_WAITER
+
+#define START_MEASUREMENT_THRESHOLD 10
 
 class EventTrace;
 
@@ -70,14 +81,6 @@ class EventTrace;
 #define MAC_Subtype_CTS		0x0C
 #define MAC_Subtype_ACK		0x0D
 #define MAC_Subtype_Data	0x00
-
-#define MAC_Subtype_80211_Beacon	0x08 
-#define MAC_Subtype_AssocReq	0x00
-#define MAC_Subtype_AssocRep	0x01
-#define MAC_Subtype_Auth	0x0C
-#define MAC_Subtype_ProbeReq	0x04
-#define MAC_Subtype_ProbeRep	0x05
-
 
 struct frame_control {
 	u_char		fc_subtype		: 4;
@@ -113,80 +116,12 @@ struct ack_frame {
 	struct frame_control	af_fc;
 	u_int16_t		af_duration;
 	u_char			af_ra[ETHER_ADDR_LEN];
+	// as this ACK also serves as a BEACON
+	u_char			af_ta[ETHER_ADDR_LEN];
+	u_int16_t		cw; // backoff window
+	u_int16_t		intended_receiver;
 	u_char			af_fcs[ETHER_FCS_LEN];
 };
-
-struct beacon_frame {		
-	struct frame_control	bf_fc;
-	u_int16_t		bf_duration;
-	u_char			bf_ra[ETHER_ADDR_LEN];
-	u_char			bf_ta[ETHER_ADDR_LEN];
-	u_char			bf_3a[ETHER_ADDR_LEN];
-	u_int16_t		bf_scontrol;
-	double			bf_timestamp;
-	double			bf_bcninterval;
-	u_int8_t		bf_datarates[1];
-	u_char			bf_fcs[ETHER_FCS_LEN];
-};
-
-struct assocreq_frame {
-	struct frame_control	acrqf_fc;
-	u_int16_t		acrqf_duration;
-	u_char			acrqf_ra[ETHER_ADDR_LEN];
-	u_char			acrqf_ta[ETHER_ADDR_LEN];
-	u_char			acrqf_3a[ETHER_ADDR_LEN];
-	u_int16_t		acrqf_scontrol;
-	u_char			acrqf_fcs[ETHER_FCS_LEN];
-};
-
-struct assocrep_frame {
-	struct frame_control	acrpf_fc;
-	u_int16_t		acrpf_duration;
-	u_char			acrpf_ra[ETHER_ADDR_LEN];
-	u_char			acrpf_ta[ETHER_ADDR_LEN];
-	u_char			acrpf_3a[ETHER_ADDR_LEN];
-	u_int16_t		acrpf_scontrol;
-	u_int16_t		acrpf_statuscode;
-	u_char			acrpf_fcs[ETHER_FCS_LEN];
-};
-
-struct auth_frame {
-	struct frame_control	authf_fc;
-	u_int16_t		authf_duration;
-	u_char			authf_ra[ETHER_ADDR_LEN];
-	u_char			authf_ta[ETHER_ADDR_LEN];
-	u_char			authf_3a[ETHER_ADDR_LEN];
-	u_int16_t		authf_scontrol;
-	u_int16_t		authf_algono;
-	u_int16_t		authf_seqno;
-	u_int16_t		authf_statuscode;
-	u_char			authf_fcs[ETHER_FCS_LEN];
-};
-
-struct probereq_frame {
-	struct frame_control	prrqf_fc;
-	u_int16_t		prrqf_duration;
-	u_char			prrqf_ra[ETHER_ADDR_LEN];
-	u_char			prrqf_ta[ETHER_ADDR_LEN];
-	u_char			prrqf_3a[ETHER_ADDR_LEN];
-	u_int16_t		prrqf_scontrol;
-	u_char			prrqf_fcs[ETHER_FCS_LEN];
-};
-
-struct proberep_frame {
-	struct frame_control	prrpf_fc;
-	u_int16_t		prrpf_duration;
-	u_char			prrpf_ra[ETHER_ADDR_LEN];
-	u_char			prrpf_ta[ETHER_ADDR_LEN];
-	u_char			prrpf_3a[ETHER_ADDR_LEN];
-	u_int16_t		prrpf_scontrol;
-	double			prrpf_timestamp;
-	double			prrpf_bcninterval;
-	u_int8_t		prrpf_datarates[1];
-	u_char			prrpf_fcs[ETHER_FCS_LEN];
-};
-
-
 
 // XXX This header does not have its header access function because it shares
 // the same header space with hdr_mac.
@@ -196,26 +131,11 @@ struct hdr_mac802_11 {
 	u_char                  dh_ra[ETHER_ADDR_LEN];
         u_char                  dh_ta[ETHER_ADDR_LEN];
         u_char                  dh_3a[ETHER_ADDR_LEN];
-	u_char			dh_4a[ETHER_ADDR_LEN];
 	u_int16_t		dh_scontrol;
-	u_char			dh_body[1]; // size of 1 for ANSI compatibility
+	u_char			dh_body[0]; // XXX Non-ANSI
 };
 
-struct client_table {
-	int client_id;
-	int auth_status;
-	int assoc_status;
-};
 
-struct ap_table {
-	int ap_id;
-	double ap_power;
-};
-
-struct priority_queue {
-	int frame_priority;
-	struct priority_queue *next;
-};
 /* ======================================================================
    Definitions
    ====================================================================== */
@@ -233,65 +153,75 @@ public:
 	inline u_int32_t getCWMin() { return(CWMin); }
         inline u_int32_t getCWMax() { return(CWMax); }
 	inline double getSlotTime() { return(SlotTime); }
-	inline double getBeaconInterval() { return(BeaconInterval); }
 	inline double getSIFS() { return(SIFSTime); }
 	inline double getPIFS() { return(SIFSTime + SlotTime); }
-	inline double getDIFS() { return(SIFSTime + 2 * SlotTime); }
+	inline double getDIFS() { 
+#ifdef YJ_802_15_4_PARAM
+		// don't need difs based on figure 61
+		return 0.;
+#else
+		return(SIFSTime + 2 * SlotTime); 
+#endif
+	}
 	inline double getEIFS() {
+#ifdef YJ_802_15_4_PARAM
+		// don't need eifs based on figure 61
+		return 0.;
+#else
 		// see (802.11-1999, 9.2.10)
 		return(SIFSTime + getDIFS()
                        + (8 *  getACKlen())/PLCPDataRate);
+#endif
 	}
 	inline u_int32_t getPreambleLength() { return(PreambleLength); }
 	inline double getPLCPDataRate() { return(PLCPDataRate); }
-	
 	
 	inline u_int32_t getPLCPhdrLen() {
 		return((PreambleLength + PLCPHeaderLength) >> 3);
 	}
 
 	inline u_int32_t getHdrLen11() {
-		return(getPLCPhdrLen() + offsetof(struct hdr_mac802_11, dh_body[0])
+#ifdef YJ_802_15_4_PARAM
+		return(getPLCPhdrLen() + 7); // based on TEP 111 for CC2420 radio
+#else
+		return(getPLCPhdrLen() + sizeof(struct hdr_mac802_11)
                        + ETHER_FCS_LEN);
+#endif
 	}
 	
 	inline u_int32_t getRTSlen() {
+#ifdef YJ_802_15_4_PARAM
+		return 16;
+#else
 		return(getPLCPhdrLen() + sizeof(struct rts_frame));
+#endif
 	}
 	
 	inline u_int32_t getCTSlen() {
+#ifdef YJ_802_15_4_PARAM
+		return 16;
+#else
 		return(getPLCPhdrLen() + sizeof(struct cts_frame));
+#endif
 	}
 	
 	inline u_int32_t getACKlen() {
+#ifdef YJ_802_15_4_PARAM
+		return(getPLCPhdrLen() + 5); // 11 bytes; based on cc2420 datasheet & 802.15.4 standard
+#else
 		return(getPLCPhdrLen() + sizeof(struct ack_frame));
+#endif
 	}
-	inline u_int32_t getBEACONlen() {		
-		return(getPLCPhdrLen() + sizeof(struct beacon_frame)); 
-	}
-	inline u_int32_t getASSOCREQlen() {			
-		return(getPLCPhdrLen() + sizeof(struct assocreq_frame));
-	}
-	inline u_int32_t getASSOCREPlen() {		
-		return(getPLCPhdrLen() + sizeof(struct assocrep_frame)); 
-	}
-	inline u_int32_t getAUTHENTICATElen() {		
-		return(getPLCPhdrLen() + sizeof(struct auth_frame)); 
-	}
-	inline u_int32_t getPROBEREQlen() {	
-		return(getPLCPhdrLen() + sizeof(struct probereq_frame)); 
-	}
-	inline u_int32_t getPROBEREPlen() {		
-		return(getPLCPhdrLen() + sizeof(struct proberep_frame)); 
-	}
+
  private:
+
+
 
 
 	u_int32_t	CWMin;
 	u_int32_t	CWMax;
 	double		SlotTime;
 	double		SIFSTime;
-	double		BeaconInterval;
 	u_int32_t	PreambleLength;
 	u_int32_t	PLCPHeaderLength;
 	double		PLCPDataRate;
@@ -306,9 +236,6 @@ public:
 #define MAC_MaxTransmitMSDULifetime	512		// time units
 #define MAC_MaxReceiveLifetime		512		// time units
 
-
-
-
 class MAC_MIB {
 public:
 
@@ -318,12 +245,6 @@ private:
 	u_int32_t	RTSThreshold;
 	u_int32_t	ShortRetryLimit;
 	u_int32_t	LongRetryLimit;
-	u_int32_t	ScanType;
-	double		ProbeDelay;
-	double		MaxChannelTime;
-	double		MinChannelTime;
-	double		ChannelTime;
-	
 public:
 	u_int32_t	FailedCount;	
 	u_int32_t	RTSFailureCount;
@@ -332,11 +253,6 @@ public:
        inline u_int32_t getRTSThreshold() { return(RTSThreshold);}
        inline u_int32_t getShortRetryLimit() { return(ShortRetryLimit);}
        inline u_int32_t getLongRetryLimit() { return(LongRetryLimit);}
-       inline u_int32_t getScanType() { return(ScanType);}	
-       inline double getProbeDelay() { return(ProbeDelay);}
-       inline double getMaxChannelTime() { return(MaxChannelTime);}
-       inline double getMinChannelTime() { return(MinChannelTime);}
-       inline double getChannelTime() { return(ChannelTime);}
 };
 
 
@@ -350,6 +266,117 @@ public:
 	u_int32_t	seqno;
 };
 
+#ifndef yj_neighbor
+#define yj_neighbor
+#define yjclock (Scheduler::instance().clock())
+
+#define MAC_Subtype_RRTS	0x0E
+
+struct rrts_frame {
+	struct frame_control	rf_fc;
+	u_int16_t		rf_duration;
+	u_char			rf_ra[ETHER_ADDR_LEN];
+	u_char			rf_ta[ETHER_ADDR_LEN];
+	u_int16_t		cw; // backoff window
+	u_int16_t		intended_receiver;
+	u_int16_t		on_demand;
+	u_char			rf_fcs[ETHER_FCS_LEN];
+};
+
+class MACHelloTimer: public MacTimer {
+public:
+	MACHelloTimer(Mac802_11 *m) : MacTimer(m) {}
+
+	void	start(int, double);
+	void	handle(Event *e);
+};
+
+class Cell{
+public:
+	Cell(){
+		time = 0.0;
+		pkt = NULL;
+		next = NULL;
+	}
+	~Cell(){
+		if(pkt != NULL)
+			Packet::free(pkt);
+		if( next != NULL ){
+			delete next;
+		}
+	}
+	double time;
+	Packet *pkt;
+	Cell *next;
+}; // class Cell
+
+class myneighbor_list_item {
+public:
+//enum link_stat {OK, SUSPICIOUS, BROKEN, UNKNOWN};
+// extended contents
+myneighbor_list_item(int macindex, u_int32_t initCW = 0);
+~myneighbor_list_item();
+int macindex_; // my mac id
+u_int32_t id;      		// neighbor id
+myneighbor_list_item *next; 	// pointer to next item
+double transmission_bound_time_;
+bool if_collision_;
+u_int32_t cw_;
+};
+
+struct myneighborlist{
+int neighbor_cnt_;   // how many neighbors in this list
+myneighbor_list_item *head; 
+} ;
+#endif 
+
+
+class SignalFinishTime{
+public:
+	SignalFinishTime(double t, double s){
+		finish_time_ = t;
+		strength_ = s;
+		next_ = NULL;
+	}
+	double finish_time_;
+	double strength_;
+	struct SignalFinishTime *next_;
+};
+
+class SINRMonitor : public MacTimer{
+public:
+	SINRMonitor(Mac802_11 *m);
+	virtual void	handle(Event *e);
+	Mac802_11 *mac_;
+	struct SignalFinishTime * head_;
+	int count_;
+	double totalpw_;
+	double time_of_last_bit_;
+
+	void cleanup(double curtime);
+	double getTotal(double curtime);
+	bool channelClear(double curtime, double CSThresh);
+
+	void add(double transmissiontime, Packet *p, double curtime);
+};
+
+class IdleGuardTimer : public MacTimer {
+public:
+	IdleGuardTimer(Mac802_11 *m) : MacTimer(m) {}
+
+	void	start(double);
+	void	handle(Event *e);
+};
+
+#ifdef YJ_QUEUED_PKT_WAITER
+class QedPktWaitTimer: public MacTimer {
+public:
+	QedPktWaitTimer(Mac802_11 *m) : MacTimer(m) {}
+
+	void	start(double);
+	void	handle(Event *e);
+};
+#endif // YJ_QUEUED_PKT_WAITER
 
 /* ======================================================================
    The actual 802.11 MAC class.
@@ -357,8 +384,7 @@ public:
 class Mac802_11 : public Mac {
 	friend class DeferTimer;
 
-	friend class BeaconTimer; 
-	friend class ProbeTimer;
+
 	friend class BackoffTimer;
 	friend class IFTimer;
 	friend class NavTimer;
@@ -376,106 +402,39 @@ public:
 	// Added by Sushmita to support event tracing
         void trace_event(char *, Packet *);
         EventTrace *et_;
-	//int colisao_;
 
 protected:
-	void	backoffHandler(void);
-	void	deferHandler(void);
-	void	BeaconHandler(void); 
-	void	ProbeHandler(void);
-	void	navHandler(void);
-	void	recvHandler(void);
-	void	sendHandler(void);
-	void	txHandler(void);
+	virtual void	backoffHandler(void);
+	virtual void	deferHandler(void);
+	virtual void	navHandler(void);
+	virtual void	recvHandler(void);
+	virtual void	sendHandler(void);
+	virtual void	txHandler(void);
 
 private:
-	void	update_client_table(int num, int auth_status, int assoc_status);			
-	int	find_client(int num);	
-	void	update_ap_table(int num, double power);	
-	int 	strongest_ap();
-	int	find_ap(int num, double power);
-	void 	deletelist();
-	void	passive_scan();	
-	void	active_scan();
-	void	checkAssocAuthStatus();
-	int	command(int argc, const char*const* argv);
-	
+	int		command(int argc, const char*const* argv);
 
-	void 	add_priority_queue(int num);
-	void 	push_priority(int num);
-	void 	delete_lastnode();
-	void	shift_priority_queue();
-
-
-
-	/* In support of bug fix described at
-	 * http://www.dei.unipd.it/wdyn/?IDsezione=2435	 
-	 */
-	int bugFix_timer_;
-	int infra_mode_;
-	double BeaconTxtime_;
-	int associated;
-	int authenticated;
-	int handoff;
-	double Pr;
-	int ap_temp;
-	int ap_addr;
-	int tx_mgmt_;
-	int associating_node_;
-	int authenticating_node_;
-	int ScanType_;
-	int OnMinChannelTime;
-	int OnMaxChannelTime;
-	int Recv_Busy_;
-	int probe_delay;
 	/*
 	 * Called by the timers.
 	 */
 	void		recv_timer(void);
 	void		send_timer(void);
 	int		check_pktCTRL();
-	int		check_pktRTS();
-	int		check_pktTx();
-	int		check_pktASSOCREQ();  
-	int		check_pktASSOCREP();
-	int		check_pktBEACON();
-	int		check_pktAUTHENTICATE();
-	int		check_pktPROBEREQ();  
-	int		check_pktPROBEREP();
-	
+	int		check_pktTx(bool ignoremedium = false);
+
 	/*
 	 * Packet Transmission Functions.
 	 */
 	void	send(Packet *p, Handler *h);
-	void 	sendRTS(int dst);
-	void	sendCTS(int dst, double duration);
 	void	sendACK(int dst);
 	void	sendDATA(Packet *p);
-	void	sendBEACON(int src);		
-	void	sendASSOCREQ(int dst);
-	void	sendASSOCREP(int dst);
-	void	sendPROBEREQ(int dst);
-	void	sendPROBEREP(int dst);
-	void	sendAUTHENTICATE(int dst);
-	void	RetransmitRTS();
 	void	RetransmitDATA();
-	void	RetransmitASSOCREP();
-	void	RetransmitPROBEREP();
-	void	RetransmitAUTHENTICATE();
 
 	/*
 	 * Packet Reception Functions.
 	 */
-	void	recvRTS(Packet *p);
-	void	recvCTS(Packet *p);
 	void	recvACK(Packet *p);
 	void	recvDATA(Packet *p);
-	void	recvBEACON(Packet *p);		
-	void	recvASSOCREQ(Packet *p);
-	void	recvASSOCREP(Packet *p);
-	void	recvPROBEREQ(Packet *p);
-	void	recvPROBEREP(Packet *p);
-	void	recvAUTHENTICATE(Packet *p);	
 
 	void		capture(Packet *p);
 	void		collision(Packet *p);
@@ -502,13 +461,15 @@ private:
 
 	double txtime(Packet *p);
 	double txtime(double psz, double drt);
-	double txtime(int bytes);
+	double txtime(int bytes) { /* clobber inherited txtime() */ abort(); return 0;}
 
 	inline void transmit(Packet *p, double timeout);
 	inline void checkBackoffTimer(void);
 	inline void postBackoff(int pri);
-	inline void setRxState(MacState newState);
-	inline void setTxState(MacState newState);
+	void setRxState(MacState newState, bool forced = false);
+	void setTxState(MacState newState, bool forced = false);
+	void forceRxState(MacState newState);
+	void forceTxState(MacState newState);
 
 
 	inline void inc_cw() {
@@ -523,16 +484,6 @@ private:
 		u_int16_t us = (u_int16_t)floor((t *= 1e6) + 0.5);
 		return us;
 	}
-	inline void set_nav(u_int16_t us) {
-		double now = Scheduler::instance().clock();
-		double t = us * 1e-6;
-		if((now + t) > nav_) {
-			nav_ = now + t;
-			if(mhNav_.busy())
-				mhNav_.stop();
-			mhNav_.start(t);
-		}
-	}
 
 protected:
 	PHY_MIB         phymib_;
@@ -545,30 +496,21 @@ protected:
         */
        int     bss_id_;
        enum    {IBSS_ID=MAC_BROADCAST};
-       enum    {
-		PASSIVE = 0,
-       		ACTIVE = 1
-		};
+
 
 private:
 	double		basicRate_;
  	double		dataRate_;
-	struct client_table	*client_list;	
-	struct ap_table	*ap_list;
-	struct priority_queue *queue_head;
-
+	
 	/*
 	 * Mac Timers
 	 */
 	IFTimer		mhIF_;		// interface timer
-	NavTimer	mhNav_;		// NAV timer
 	RxTimer		mhRecv_;		// incoming packets
 	TxTimer		mhSend_;		// outgoing packets
 
 	DeferTimer	mhDefer_;	// defer timer
 	BackoffTimer	mhBackoff_;	// backoff timer
-	BeaconTimer	mhBeacon_;	// Beacon Timer 
-	ProbeTimer	mhProbe_;	//Probe timer, 
 
 	/* ============================================================
 	   Internal MAC State
@@ -581,14 +523,7 @@ private:
 
 	Packet          *eotPacket_;    // copy for eot callback
 
-	Packet		*pktRTS_;	// outgoing RTS packet
-	Packet		*pktCTRL_;	// outgoing non-RTS packet
-	Packet		*pktBEACON_;	//outgoing Beacon Packet
-	Packet		*pktASSOCREQ_;	//Association request
-	Packet		*pktASSOCREP_;	// Association response
-	Packet		*pktAUTHENTICATE_; //Authentication
-	Packet		*pktPROBEREQ_;	//Probe Request
-	Packet		*pktPROBEREP_;	//Probe Response
+	Packet		*pktCTRL_;	// outgoing ack packet
 
 	u_int32_t	cw_;		// Contention Window
 	u_int32_t	ssrc_;		// STA Short Retry Count
@@ -596,8 +531,10 @@ private:
 
 	int		min_frame_len_;
 
-	NsObject*	logtarget_;
+//	NsObject*	logtarget_;
 	NsObject*       EOTtarget_;     // given a copy of packet at TX end
+
+
 
 
 	/* ============================================================
@@ -607,12 +544,59 @@ private:
 	int		cache_node_count_;
 	Host		*cache_;
 
+public:
+	CMUPriQueue *ifq_; // points to IFQ
+	bool attemptToSleep(bool forced = false);
+	bool wakeup();
+	bool is_transmission_attempt_allowed(bool is_boxxmac_preamble = false);
+	double duty_cycle_length_;
+	bool if_want_sleep_;
+	double last_radio_state_update_time_;
+	bool duty_cycle_stat_started_; // whether to collect statistical infomation on duty cycle
+	virtual void handleWakeup();
+	virtual void idleGuardTimerHandler();
+	// only for rdmac
+	virtual void discardTimerHandler(){};
+#ifdef YJ_QUEUED_PKT_WAITER
+	QedPktWaitTimer	mhQedPktWaiter_;
+	virtual void QedPktWaitTimerHandler();
+	double dwell_time_;
+#endif
+	IdleGuardTimer mhIdle_;
+	bool is_waiting_for_pkt_;
+	virtual void decideWhetherToSleep();
 
-	std::list<struct client_table> client_list1;
-	std::list<struct ap_table> ap_list1;
+#ifdef YJ_XMAC_EXTENSION
+	// specific to XMAC
+	void setupXMACPreamble(int dst);
+	void recvPreamble(Packet *p);
+#endif
 
+	SINRMonitor sinrMonitor;
+	virtual void sinrMonitorHandler();
+	double CSThresh_;
+
+	// if the given pkt's PLCP header is being received 
+	bool isPLCPHdrDone(Packet *p);
+	double neighbor_timeout;
+	Trace*	logtarget_;
+	double hello_upper_bound;
+	void recv_beacon(u_int32_t nodemac);
+
+	struct myneighborlist myneighbor_list;
+	void start_neighbourdetect();
+	void start_hello();
+	myneighbor_list_item* getNeighbor(u_int32_t dmac);
+	MACHelloTimer* hellotimer_;
+	void direct_trace(char* fmt, ...);
+
+
+	//flags
+	static bool beacon_flag;
 
 };
+
+
 
 #endif /* __mac_80211_h__ */
 

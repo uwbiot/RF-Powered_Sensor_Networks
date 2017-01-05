@@ -38,7 +38,7 @@ CPP	= g++
 LINK	= $(CPP)
 LINK_SHLIB = gcc -shared
 MKDEP	= ./conf/mkdep
-TCLSH	= /home/navalk/ns-allinone-2.35/bin/tclsh8.5
+TCLSH	= /home/navalk/git_ns/RF-Powered_Sensor_Networks/bin/tclsh8.5
 TCL2C	= ../tclcl-1.20/tcl2c++
 AR	= ar rc $(BLANK)
 
@@ -64,7 +64,7 @@ DEFINE	= -DTCP_DELAY_BIND_ALL -DNO_TK -DTCLCL_CLASSINSTVAR  -DNDEBUG -DLINUX_TCP
 INCLUDES = \
 	-I.  \
 	-I. \
-	-I/home/navalk/ns-allinone-2.35/tclcl-1.20 -I/home/navalk/ns-allinone-2.35/otcl -I/home/navalk/ns-allinone-2.35/include -I/home/navalk/ns-allinone-2.35/include -I/home/navalk/ns-allinone-2.35/include -I/usr/include/pcap \
+	-I/home/navalk/git_ns/RF-Powered_Sensor_Networks/tclcl-1.20 -I/home/navalk/git_ns/RF-Powered_Sensor_Networks/otcl -I/home/navalk/git_ns/RF-Powered_Sensor_Networks/include -I/home/navalk/git_ns/RF-Powered_Sensor_Networks/include -I/home/navalk/git_ns/RF-Powered_Sensor_Networks/include -I/usr/include/pcap \
 	-I./tcp -I./sctp -I./common -I./link -I./queue \
 	-I./adc -I./apps -I./mac -I./mobile -I./trace \
 	-I./routing -I./tools -I./classifier -I./mcast \
@@ -76,7 +76,7 @@ INCLUDES = \
 
 
 LIB	= \
-	-L/home/navalk/ns-allinone-2.35/tclcl-1.20 -ltclcl -L/home/navalk/ns-allinone-2.35/otcl -lotcl -L/home/navalk/ns-allinone-2.35/lib -ltk8.5 -L/home/navalk/ns-allinone-2.35/lib -ltcl8.5 \
+	-L/home/navalk/git_ns/RF-Powered_Sensor_Networks/tclcl-1.20 -ltclcl -L/home/navalk/git_ns/RF-Powered_Sensor_Networks/otcl -lotcl -L/home/navalk/git_ns/RF-Powered_Sensor_Networks/lib -ltk8.5 -L/home/navalk/git_ns/RF-Powered_Sensor_Networks/lib -ltcl8.5 \
 	-lXext -lX11 \
 	 -lnsl -ldl \
 	-lm -lm 

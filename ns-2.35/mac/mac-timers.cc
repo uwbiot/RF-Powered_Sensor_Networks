@@ -145,70 +145,6 @@ DeferTimer::handle(Event *)
 
 
 /* ======================================================================
-   Beacon Timer
-   ====================================================================== */
-void
-BeaconTimer::start(double time)
-{
-	Scheduler &s = Scheduler::instance();
-
-	assert(busy_ == 0);
-
-	busy_ = 1;
-	paused_ = 0;
-	stime = s.clock();
-	rtime = time;
-
-	assert(rtime >= 0.0);
-
-	s.schedule(this, &intr, rtime);
-}
-
-
-void    
-BeaconTimer::handle(Event *)
-{       
-	busy_ = 0;
-	paused_ = 0;
-	stime = 0.0;
-	rtime = 0.0;
-
-	mac->BeaconHandler();
-}
-
-/* ======================================================================
-   Probe Timer
-   ====================================================================== */
-void
-ProbeTimer::start(double time)
-{
-	Scheduler &s = Scheduler::instance();
-
-	assert(busy_ == 0);
-
-	busy_ = 1;
-	paused_ = 0;
-	stime = s.clock();
-	rtime = time;
-
-	assert(rtime >= 0.0);
-
-	s.schedule(this, &intr, rtime);
-}
-
-
-void    
-ProbeTimer::handle(Event *)
-{       
-	busy_ = 0;
-	paused_ = 0;
-	stime = 0.0;
-	rtime = 0.0;
-
-	mac->ProbeHandler();
-}
-
-/* ======================================================================
    NAV Timer
    ====================================================================== */
 void    
@@ -296,7 +232,16 @@ BackoffTimer::start(int cw, int idle, double difs)
 	paused_ = 0;
 	stime = s.clock();
 	
-	rtime = (Random::random() % cw) * mac->phymib_.getSlotTime();
+	if( cw == 0 ) 
+		rtime = 0.;
+	else
+		rtime = (Random::random() % cw) * mac->phymib_.getSlotTime();
+
+#ifdef YJ_DEBUG_LPL
+	fprintf(stdout, "cw %d idle %d difs %f rtime %f \n", cw, idle, difs, rtime);
+#endif
+
+
 #ifdef USE_SLOT_TIME
 	ROUND_TIME();
 #endif

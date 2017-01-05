@@ -52,10 +52,10 @@ prefix  = /usr/local
 BINDEST = /usr/local/bin
 
 CC = g++
-INCLUDE = -I. -I/home/navalk/ns-allinone-2.35/tclcl-1.20 -I/home/navalk/ns-allinone-2.35/otcl -I/home/navalk/ns-allinone-2.35/include -I/home/navalk/ns-allinone-2.35/include -I/home/navalk/ns-allinone-2.35/include -I/usr/include/pcap
+INCLUDE = -I. -I/home/navalk/git_ns/RF-Powered_Sensor_Networks/tclcl-1.20 -I/home/navalk/git_ns/RF-Powered_Sensor_Networks/otcl -I/home/navalk/git_ns/RF-Powered_Sensor_Networks/include -I/home/navalk/git_ns/RF-Powered_Sensor_Networks/include -I/home/navalk/git_ns/RF-Powered_Sensor_Networks/include -I/usr/include/pcap
 CFLAGS =  -Wall -Wno-write-strings -DCPP_NAMESPACE=std
 LDFLAGS = 
-LIBS = -L/home/navalk/ns-allinone-2.35/lib -ltcl8.5  -lnsl -ldl -lm 
+LIBS = -L/home/navalk/git_ns/RF-Powered_Sensor_Networks/lib -ltcl8.5  -lnsl -ldl -lm 
 INSTALL = /usr/bin/install -c
 
 SRC = proxytrace.cc formsquid.cc formtxt.cc my-endian.cc \

@@ -88,7 +88,9 @@ Mac::Mac() :
 	BiConnector(), abstract_(0), netif_(0), tap_(0), ll_(0), channel_(0), callback_(0), 
 	hRes_(this), hSend_(this), state_(MAC_IDLE), pktRx_(0), pktTx_(0)
 {
-	index_ = MacIndex++;
+	//index_ = MacIndex++;
+	// Yang- 04/23/2010 disable arp
+	bind ("index_", &index_);
 	bind_bw("bandwidth_", &bandwidth_);
 	bind_time("delay_", &delay_);
 	bind_bool("abstract_", &abstract_);
@@ -153,7 +155,7 @@ void Mac::sendUp(Packet* p)
 			drop(p);
 		}else {
 			//Dont want to creat a trace
-			Packet::free(p); 
+			Packet::free(p);
 		}
 		return;
 	}
@@ -173,7 +175,7 @@ void Mac::sendDown(Packet* p)
 void Mac::resume(Packet* p)
 {
 	if (p != 0)
-		drop(p); 
+		drop(p);
 	state(MAC_IDLE);
 	callback_->handle(&intr_);
 }
