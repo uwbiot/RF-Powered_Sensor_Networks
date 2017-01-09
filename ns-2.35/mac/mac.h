@@ -49,8 +49,6 @@
 #include "marshall.h"
 #include "channel.h"
 
-//#include <yjrouteflip.h>
-
 class Channel;
 
 #define ZERO	0.00000
@@ -89,6 +87,7 @@ enum MacState {
 	MAC_CTS		= 0x0400,
 	MAC_ACK		= 0x0800,
 	MAC_COLL	= 0x1000,
+	MAC_MGMT	= 0x1001,
 	MAC_SLEEP	= 0x4000,
 	MAC_PREAMBLE = 0x8000,
 	MAC_RIMACBEACON = 0x2000,
@@ -116,7 +115,8 @@ struct hdr_mac {
 
 	double txtime_;		// transmission time
 	double sstime_;		// slot start time
-double arrivaltime_;
+	double arrivaltime_;
+
 	int padding_;
 //07/05/2012 11:06:12 AM  Yang
 	int backoff_;
@@ -125,6 +125,7 @@ double arrivaltime_;
     int minid_;
     int hop_;
 // -Yang
+
 	inline void set(MacFrameType ft, int sa, int da=-1) {
 		ftype_ = ft;
 		macSA_ = sa;
@@ -243,7 +244,7 @@ protected:
 	int abstract_;         //   MAC support for abstract LAN 
         
 	Phy *netif_;            // network interface
-    Tap *tap_;              // tap agent
+        Tap *tap_;              // tap agent
 	LL *ll_;             	// LL this MAC is connected to
 	Channel *channel_;	// channel this MAC is connected to
 

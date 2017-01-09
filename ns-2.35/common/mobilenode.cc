@@ -330,7 +330,6 @@ MobileNode::start()
 void 
 MobileNode::log_movement()
 {
-#if 0
         if (!log_target_) 
 		return;
 
@@ -339,14 +338,12 @@ MobileNode::log_movement()
 		"M %.5f %d (%.2f, %.2f, %.2f), (%.2f, %.2f), %.2f",
 		s.clock(), address_, X_, Y_, Z_, destX_, destY_, speed_);
 	log_target_->pt_->dump();
-#endif
 }
 
 
 void
 MobileNode::log_energy(int flag)
 {
-#if 0
 	if (!log_target_) 
 		return;
 	Scheduler &s = Scheduler::instance();
@@ -358,7 +355,6 @@ MobileNode::log_energy(int flag)
 			address_); 
 	}
 	log_target_->pt_->dump();
-#endif
 }
 
 //void

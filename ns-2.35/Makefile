@@ -72,7 +72,8 @@ INCLUDES = \
 	-I./diffusion3/lib/nr -I./diffusion3/ns \
 	-I./diffusion3/filter_core -I./asim/ -I./qs \
 	-I./diffserv -I./satellite \
-	-I./wpan
+	-I./wpan \
+    -I./jros -I./jros/app -I./jros/phy -I./jros/mac -I./jros/routing 
 
 
 LIB	= \
@@ -149,7 +150,14 @@ OBJ_STL = diffusion3/lib/nr/nr.o diffusion3/lib/dr.o \
 	packmime/packmime_HTTP.o packmime/packmime_HTTP_rng.o \
 	packmime/packmime_OL.o packmime/packmime_OL_ranvar.o\
 	packmime/packmime_ranvar.o \
-	tmix/tmix.o tmix/tmixAgent.o tmix/tmix_delaybox.o
+	tmix/tmix.o tmix/tmixAgent.o tmix/tmix_delaybox.o \
+ 	jros/ctrace.o \
+	jros/app/rilapp.o jros/app/rilagent.o \
+    jros/routing/chargingrt.o \
+ 	jros/phy/charging-energy-model.o \
+ 	jros/phy/wireless-chargingphy.o \
+ 	jros/mac/rilmac.o 
+
 
 NS_TCL_LIB_STL = tcl/lib/ns-diffusion.tcl \
 	tcl/delaybox/delaybox.tcl \
@@ -291,7 +299,7 @@ OBJ_CC = \
 	diffusion/diffusion.o diffusion/diff_rate.o diffusion/diff_prob.o \
 	diffusion/diff_sink.o diffusion/flooding.o diffusion/omni_mcast.o \
 	diffusion/hash_table.o diffusion/routing_table.o diffusion/iflist.o \
-	tcp/tfrc.o tcp/tfrc-sink.o mobile/energy-model.o apps/ping.o apps/rfidReader.o apps/rfidTag.o apps/rfidPacket.o tcp/tcp-rfc793edu.o \
+	tcp/tfrc.o tcp/tfrc-sink.o mobile/energy-model.o apps/ping.o tcp/tcp-rfc793edu.o \
 	queue/rio.o queue/semantic-rio.o tcp/tcp-sack-rh.o tcp/scoreboard-rh.o \
 	plm/loss-monitor-plm.o plm/cbr-traffic-PP.o \
 	linkstate/hdr-ls.o \

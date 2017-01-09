@@ -74,7 +74,6 @@ public:
   // type
   virtual double Pr(PacketStamp *tx, PacketStamp *rx, Phy *);
   virtual double Pr(PacketStamp *tx, PacketStamp *rx, WirelessPhy *);
-  //virtual double Pr(PacketStamp *tx, PacketStamp *rx, RfidPhy *);
   virtual int command(int argc, const char*const* argv);
 
   // get interference distance
@@ -103,7 +102,6 @@ class FreeSpace : public Propagation {
 public:
 //	FreeSpace();
 	virtual double Pr(PacketStamp *tx, PacketStamp *rx, WirelessPhy *ifp);
-	//virtual double Pr(PacketStamp *tx, PacketStamp *rx, RfidPhy *ifp);
 	virtual double getDist(double Pr, double Pt, double Gt, double Gr,
 			       double ht, double hr, double L, double lambda);
 };

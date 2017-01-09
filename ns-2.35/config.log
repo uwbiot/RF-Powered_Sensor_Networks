@@ -847,7 +847,7 @@ configure:7959: $? = 0
 configure:7959: result: yes
 configure:7959: checking for fesetprecision
 configure:7959: gcc -o conftest -g -O2   conftest.c -lm  >&5
-/tmp/ccgP1hGg.o: In function `main':
+/tmp/ccevjTI0.o: In function `main':
 /home/navalk/git_ns/RF-Powered_Sensor_Networks/ns-2.35/conftest.c:83: undefined reference to `fesetprecision'
 collect2: error: ld returned 1 exit status
 configure:7959: $? = 1
@@ -1949,7 +1949,7 @@ configure:8897: $? = 0
 configure:8901: result: found
 configure:8915: checking for addr2ascii
 configure:8915: gcc -o conftest -g -O2   -Wl,-export-dynamic conftest.c -lm  >&5
-/tmp/ccQvbX3p.o: In function `main':
+/tmp/ccJZpWc9.o: In function `main':
 /home/navalk/git_ns/RF-Powered_Sensor_Networks/ns-2.35/conftest.c:94: undefined reference to `addr2ascii'
 collect2: error: ld returned 1 exit status
 configure:8915: $? = 1

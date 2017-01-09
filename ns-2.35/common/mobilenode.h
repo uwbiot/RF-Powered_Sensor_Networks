@@ -64,7 +64,7 @@ class MobileNode;
 #include "energy-model.h"
 #include "location.h"
 
-//class GridKeeper;
+
 
 #if COMMENT_ONLY
 		 -----------------------
@@ -165,6 +165,7 @@ public:
 	// yang 04/27/2010
 	inline void setX(double x){if (X_==0.0) X_ =x;}
 	inline void setY(double y){if (Y_==0.0) Y_ =y;}
+	
 protected:
 	/*
 	 * Last time the position of this node was updated.

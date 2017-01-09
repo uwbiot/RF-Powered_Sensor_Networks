@@ -36,9 +36,6 @@
 #ifndef __mac_timers_h__
 #define __mac_timers_h__
 
-//yanjun 07
-//#include <yjrouteflip.h>
-
 /* ======================================================================
    Timers
    ====================================================================== */
@@ -95,6 +92,21 @@ public:
 	void	handle(Event *e);
 };
 
+class BeaconTimer : public MacTimer {
+public:
+	BeaconTimer(Mac802_11 *m) : MacTimer(m) {}
+
+	void	start(double);
+	void	handle(Event *e);
+};
+
+class ProbeTimer : public MacTimer {
+public:
+	ProbeTimer(Mac802_11 *m) : MacTimer(m) {}
+
+	void	start(double);
+	void	handle(Event *e);
+};
 
 
 class IFTimer : public MacTimer {

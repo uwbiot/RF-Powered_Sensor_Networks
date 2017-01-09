@@ -57,8 +57,6 @@
 #include <cmu-trace.h>
 #include <mobilenode.h>
 #include <simulator.h>
-#include <rfidPacket.h>
-//#include <rfiReader.h>
 //<zheng: add for 802.15.4>
 #include "wpan/p802_15_4pkt.h"
 #include "wpan/p802_15_4trace.h"
@@ -158,86 +156,6 @@ CMUTrace::CMUTrace(const char *s, char t) : Trace(t)
 	for (int i=0 ; i < MAX_NODE ; i++) 
 		nodeColor[i] = 3 ;
         node_ = 0;
-}
-
-//RFIDREADER TRACE
-void
-CMUTrace::format_RfidReader(Packet *p, int offset)
-{
-	hdr_rfidPacket* hdr = hdr_rfidPacket::access(p);
-
-	if (newtrace_) {
-				int origem=-9, destino=-9,qValue=-1,slotCounter=0, dest;
-				float rng16=-9;
-				int col,idl,suc=0,session=0;
-				col=hdr->colCounter_;
-				idl=hdr->idlCounter_;
-				suc=hdr->sucCounter_;
-				session=hdr->session_;
-				dest=hdr->tagEPC_;
-				if (hdr->tipo_==1) { //tag - leitor
-					origem = hdr->tagEPC_;
-					destino = hdr->id_;
-					rng16 = hdr->rng16_;
-					qValue = hdr->qValue_;
-					//no = (RfidReaderAgent)node_->tagEPC_;
-					sprintf(pt_->buffer(),"%c -t %.9f -Zt %d -Zi %d -Zs %d -Zd %d -Zc %d -Zq %d -Zr %.3f -Zv %d",
-                                	type_,
-	                                Scheduler::instance().clock(),
-        	                        hdr->tipo_,
-                	                src_,
-                        	        origem,
-                                	dest,
-	                                hdr->command_,
-        	                        hdr->service_,
-                	                rng16,
-                        	        hdr->qValue_
-                                	);
-				}
-				else if (hdr->tipo_ == 0) { //leitor - tag
-					origem = hdr->id_;
-					destino = hdr->tagEPC_;
-					slotCounter=hdr->slotCounter_;
-					sprintf(pt_->buffer(),"%c -t %.9f -Zt %d -Zi %d -Zs %d -Zd %d -Zc %d -Zq %d -Zv %d -Zz %d Xc %d Xi %d Xs %d -Ss %d",
-	                                type_,
-        	                        Scheduler::instance().clock(),
-                	                hdr->tipo_,
-                        	        src_,
-                                	origem,
-	                                destino,
-        	                        hdr->command_,
-                	                hdr->service_,
-                                	hdr->qValue_,
-	                                slotCounter,
-        	                        col,
-                	                idl,
-                        	        suc,
-                                	session
-	                                );
-
-				}
-				//sprintf(pt_->buffer() + offset,"-Z %d",hdr->tipo_);
-				/*sprintf(pt_->buffer(),"%c -t %.9f -Zt %d -Zi %d -Zs %d -Zd %d -Zc %d -Zq %d -Zr %.3f -Zv %d -Zz %d Xc %d Xi %d Xs %d -Ss %d",
-				type_,
-				Scheduler::instance().clock(),
-				hdr->tipo_,
-				src_,
-				origem,
-				destino,
-				hdr->command_,
-				hdr->service_,
-				rng16,
-				hdr->qValue_,
-				slotCounter,
-				col,
-				idl,
-				suc,
-				session
-				);*/
-
-			}
-	else {
-	}
 }
 
 void
@@ -1537,9 +1455,6 @@ void CMUTrace::format(Packet* p, const char *why)
 			break;
 		case PT_GAF:
 		case PT_PING:
-			break;
-		case PT_RFIDPACKET: 
-			format_RfidReader(p,offset);
 			break;
 		default:
 

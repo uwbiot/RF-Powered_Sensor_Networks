@@ -1150,11 +1150,6 @@ set aodvonly [string first \"AODV\" [$agent info class]] \n\
 if {$aodvonly != -1 } {\n\
 $agent if-queue [$self set ifq_(0)]   ;# ifq between LL and MAC\n\
 }\n\
-set rfidreaderonly [string first \"RFIDREADER\" [$agent info class]] \n\
-if {$aodvonly != -1 } {\n\
-$agent if-queue [$self set ifq_(0)]   ;# ifq between LL and MAC\n\
-}\n\
-\n\
 \n\
 \n\
 if { $port == [Node set rtagent_port_] } {			\n\
@@ -3435,7 +3430,6 @@ DCCP_CLOSEREQ   # DCCP, transport protocol\n\
 Message # a protocol to carry text messages\n\
 Ping 	# Ping\n\
 PBC     # PBC\n\
-RfidPacket #Pacote RFID\n\
 ARP 	# Address Resolution Protocol, network wireless stack\n\
 GAF 	# Geographic Adaptive Delity, for ad-hoc networks\n\
 LL 	# network wireless stack\n\
@@ -19378,6 +19372,7 @@ Mac/802_11 set PLCPDataRate_  1.0e6           ;# 1Mbps\n\
 Mac/802_11 set RTSThreshold_  0               ;# bytes\n\
 Mac/802_11 set ShortRetryLimit_       7               ;# retransmittions\n\
 Mac/802_11 set LongRetryLimit_        4               ;# retransmissions\n\
+\n\
 Mac/802_11 set bugFix_timer_ true;         # fix for when RTS/CTS not used\n\
 \n\
 Mac/802_11 set BeaconInterval_	       0.1		;# 100ms	\n\
@@ -19386,6 +19381,8 @@ Mac/802_11 set ProbeDelay_	0.0001		;# 0.1 ms\n\
 Mac/802_11 set MaxChannelTime_ 0.011		;# 11 ms\n\
 Mac/802_11 set MinChannelTime_ 0.005		; # 5 ms\n\
 Mac/802_11 set ChannelTime_ 0.12		;# 120 ms\n\
+\n\
+\n\
 \n\
 Mac/802_11Ext set HeaderDuration_   0.000020  ;# (SERVICE) 16bits last of PLCP header are not included\n\
 Mac/802_11Ext set SymbolDuration_   0.000004  ;# (SERVICE) 16bits last of PLCP header are not included\n\
@@ -19426,11 +19423,12 @@ Phy set debug_ false\n\
 Phy/WirelessPhy set CPThresh_ 10.0\n\
 Phy/WirelessPhy set CSThresh_ 1.559e-11\n\
 Phy/WirelessPhy set RXThresh_ 3.652e-10\n\
-Phy/WirelessPhy set bandwidth_ 2e3\n\
+Phy/WirelessPhy set bandwidth_ 2e6\n\
 Phy/WirelessPhy set Pt_ 0.28183815\n\
 Phy/WirelessPhy set freq_ 914e+6\n\
 Phy/WirelessPhy set L_ 1.0  \n\
 \n\
+Phy/WirelessPhyExt set CSThresh_ 6.30957e-12           ;# -82 dBm\n\
 Phy/WirelessPhyExt set noise_floor_ 7.96159e-14        ;# -101 dBm\n\
 Phy/WirelessPhyExt set PowerMonitorThresh_ 2.653e-14   ;# -105.7 dBm (noise_floor_ / 3)\n\
 Phy/WirelessPhyExt set Pt_  0.1\n\
@@ -19488,38 +19486,6 @@ Agent set class_ 0\n\
 \n\
 \n\
 Agent/Ping set packetSize_ 64\n\
-Agent/RfidReader set packetSize_ 4\n\
-Agent/RfidReader set id_ 12345\n\
-Agent/RfidReader set tagEPC_ 1\n\
-Agent/RfidReader set singularization_ 0\n\
-Agent/RfidReader set service_ 2\n\
-Agent/RfidReader set qValue_ 4\n\
-Agent/RfidReader set memory_ 0\n\
-Agent/RfidReader set rng16_ 0\n\
-Agent/RfidReader set c_ 0.3\n\
-Agent/RfidReader set Qfp_ 4.0\n\
-Agent/RfidReader set t2_ 0.0025\n\
-Agent/RfidReader set messages_ 0\n\
-Agent/RfidReader set trace_ 0\n\
-Agent/RfidReader set mechanism_ 0\n\
-Agent/RfidReader set estConstant_ 3\n\
-Agent/RfidReader set estMethod_ 1\n\
-Agent/RfidReader set iL_ 128\n\
-Agent/RfidReader set backlog_ 2\n\
-Agent/RfidReader set initialFrameSize_ 3\n\
-Agent/RfidReader set frameMultiplier_ 0.67\n\
-\n\
-Agent/RfidTag set packetSize_ 4\n\
-Agent/RfidTag set id_ 0\n\
-Agent/RfidTag set tagEPC_ 10\n\
-Agent/RfidTag set singularization_ 1\n\
-Agent/RfidTag set service_ 0\n\
-Agent/RfidTag set kill_ 0\n\
-Agent/RfidTag set time_ 1\n\
-Agent/RfidTag set memory_ 0\n\
-Agent/RfidTag set messages_ 0\n\
-Agent/RfidTag set seed_ 0.2363\n\
-Agent/RfidTag set trace_ 0\n\
 \n\
 Agent/UDP set packetSize_ 1000\n\
 Agent/UDP instproc done {} { }\n\
@@ -21383,8 +21349,6 @@ $self at 0.0 \"$ragent start\"\n\
 $node set ragent_ $ragent\n\
 return $ragent\n\
 }\n\
-\n\
-\n\
 \n\
 Simulator instproc create-puma-agent { node } {\n\
 set ragent [new Agent/PUMA [$node node-addr]]\n\

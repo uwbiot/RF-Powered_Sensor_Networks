@@ -1,0 +1,424 @@
+Starting Simulation...
+
+NOTE: SMAC is running with sleep-wakeup cycles on. Please make sure to run yr applications AFTER the nodes get sync'ed which is about 40sec for the default settings.
+
+num_nodes is set 2
+SMAC Constructor, node 0 at 0.000000
+command 			node 0 at 0.000000
+command 			node 0 at 0.000000
+command 			node 0 at 0.000000
+command 			node 0 at 0.000000
+command 			node 0 at 0.000000
+command 			node 0 at 0.000000
+command 			node 0 at 0.000000
+command 			node 0 at 0.000000
+command 			node 0 at 0.000000
+SMAC Constructor, node 1 at 0.000000
+command 			node 1 at 0.000000
+command 			node 1 at 0.000000
+command 			node 1 at 0.000000
+command 			node 1 at 0.000000
+command 			node 1 at 0.000000
+command 			node 1 at 0.000000
+command 			node 1 at 0.000000
+command 			node 1 at 0.000000
+command 			node 1 at 0.000000
+Received a packet:	node: 0 packet: 14ca360 at 1.000005
+Sending a packet: 14ca360, node 0 at 1.000005
+setMySched 		node 0 packet: 0 at 15.763000
+setMySched 		node 1 packet: 0 at 15.763000
+sendSYNC 			node: 0 packet: 14c9ee0
+channel.cc:sendUp - Calc highestAntennaZ_ and distCST_
+highestAntennaZ_ = 1.5,  distCST_ = 550.0
+Received a packet:	node: 1 packet: 14ca000 at 17.221000
+sentSYNC 			node: 0 packet: 14c9ee0 
+handleSYNC 			node: 1 packet: 14ca000
+setMySched 		node 1 packet: 14ca000 at 17.224000
+sendSYNC 			node: 1 packet: 14ca000
+Received a packet:	node: 0 packet: 14c9f70 at 18.639000
+sentSYNC 			node: 1 packet: 14ca000 
+handleSYNC 			node: 0 packet: 14c9f70
+setMySched 		node 0 packet: 14c9f70 at 18.642000
+sendSYNC 			node: 0 packet: 14c9f70
+Received a packet:	node: 1 packet: 14c9ee0 at 20.080000
+sentSYNC 			node: 0 packet: 14c9f70 
+handleSYNC 			node: 1 packet: 14c9ee0
+sendSYNC 			node: 1 packet: 14c9ee0
+Received a packet:	node: 0 packet: 14c9f70 at 32.981000
+sentSYNC 			node: 1 packet: 14c9ee0 
+handleSYNC 			node: 0 packet: 14c9f70
+sendSYNC 			node: 0 packet: 14c9f70
+Received a packet:	node: 1 packet: 14ca2d0 at 34.420000
+sentSYNC 			node: 0 packet: 14c9f70 
+handleSYNC 			node: 1 packet: 14ca2d0
+sendSYNC 			node: 1 packet: 14ca000
+Received a packet:	node: 0 packet: 14ca120 at 47.301000
+sentSYNC 			node: 1 packet: 14ca000 
+handleSYNC 			node: 0 packet: 14ca120
+sendSYNC 			node: 0 packet: 14ca120
+Received a packet:	node: 1 packet: 14ca090 at 48.759000
+sentSYNC 			node: 0 packet: 14ca120 
+handleSYNC 			node: 1 packet: 14ca090
+sendSYNC 			node: 1 packet: 14ca120
+Received a packet:	node: 0 packet: 14ca1b0 at 61.647000
+sentSYNC 			node: 1 packet: 14ca120 
+handleSYNC 			node: 0 packet: 14ca1b0
+sendSYNC 			node: 0 packet: 14ca1b0
+Received a packet:	node: 1 packet: 14ca000 at 63.074000
+sentSYNC 			node: 0 packet: 14ca1b0 
+handleSYNC 			node: 1 packet: 14ca000
+sendSYNC 			node: 1 packet: 14ca000
+Received a packet:	node: 0 packet: 14ca1b0 at 75.983000
+sentSYNC 			node: 1 packet: 14ca000 
+handleSYNC 			node: 0 packet: 14ca1b0
+sendSYNC 			node: 0 packet: 14ca090
+Received a packet:	node: 1 packet: 14d6e50 at 77.408000
+sentSYNC 			node: 0 packet: 14ca090 
+handleSYNC 			node: 1 packet: 14d6e50
+sendSYNC 			node: 1 packet: 14ca090
+Received a packet:	node: 0 packet: 14d8160 at 90.300000
+sentSYNC 			node: 1 packet: 14ca090 
+handleSYNC 			node: 0 packet: 14d8160
+sendSYNC 			node: 0 packet: 14ca090
+Received a packet:	node: 1 packet: 14d9470 at 91.734000
+sentSYNC 			node: 0 packet: 14ca090 
+handleSYNC 			node: 1 packet: 14d9470
+sendSYNC 			node: 1 packet: 14d9470
+Received a packet:	node: 0 packet: 14ca090 at 104.628000
+sentSYNC 			node: 1 packet: 14d9470 
+handleSYNC 			node: 0 packet: 14ca090
+sendSYNC 			node: 0 packet: 14ca090
+Received a packet:	node: 1 packet: 14d8160 at 106.081000
+sentSYNC 			node: 0 packet: 14ca090 
+handleSYNC 			node: 1 packet: 14d8160
+sendSYNC 			node: 1 packet: 14d9470
+Received a packet:	node: 0 packet: 14da780 at 118.976000
+sentSYNC 			node: 1 packet: 14d9470 
+handleSYNC 			node: 0 packet: 14da780
+sendSYNC 			node: 0 packet: 14da780
+Received a packet:	node: 1 packet: 14ca120 at 120.400000
+sentSYNC 			node: 0 packet: 14da780 
+handleSYNC 			node: 1 packet: 14ca120
+sendSYNC 			node: 1 packet: 14da780
+Received a packet:	node: 0 packet: 14dba90 at 133.294000
+sentSYNC 			node: 1 packet: 14da780 
+handleSYNC 			node: 0 packet: 14dba90
+sendSYNC 			node: 0 packet: 14dba90
+Received a packet:	node: 1 packet: 14d9470 at 134.730000
+sentSYNC 			node: 0 packet: 14dba90 
+handleSYNC 			node: 1 packet: 14d9470
+sendSYNC 			node: 1 packet: 14dba90
+Received a packet:	node: 0 packet: 14dcda0 at 147.613000
+sentSYNC 			node: 1 packet: 14dba90 
+handleSYNC 			node: 0 packet: 14dcda0
+sendSYNC 			node: 0 packet: 14dcda0
+Received a packet:	node: 1 packet: 14da780 at 149.056000
+sentSYNC 			node: 0 packet: 14dcda0 
+handleSYNC 			node: 1 packet: 14da780
+sendSYNC 			node: 1 packet: 14dcda0
+Received a packet:	node: 0 packet: 14de0b0 at 161.965000
+sentSYNC 			node: 1 packet: 14dcda0 
+handleSYNC 			node: 0 packet: 14de0b0
+sendSYNC 			node: 0 packet: 14de0b0
+Received a packet:	node: 1 packet: 14dba90 at 163.383000
+sentSYNC 			node: 0 packet: 14de0b0 
+handleSYNC 			node: 1 packet: 14dba90
+sendSYNC 			node: 1 packet: 14de0b0
+Received a packet:	node: 0 packet: 14df3c0 at 176.298000
+sentSYNC 			node: 1 packet: 14de0b0 
+handleSYNC 			node: 0 packet: 14df3c0
+sendSYNC 			node: 0 packet: 14df3c0
+Received a packet:	node: 1 packet: 14dcda0 at 177.705000
+sentSYNC 			node: 0 packet: 14df3c0 
+handleSYNC 			node: 1 packet: 14dcda0
+sendSYNC 			node: 1 packet: 14df3c0
+Received a packet:	node: 0 packet: 14de0b0 at 190.624000
+sentSYNC 			node: 1 packet: 14df3c0 
+handleSYNC 			node: 0 packet: 14de0b0
+sendSYNC 			node: 0 packet: 14de0b0
+Received a packet:	node: 1 packet: 14dcda0 at 192.046000
+sentSYNC 			node: 0 packet: 14de0b0 
+handleSYNC 			node: 1 packet: 14dcda0
+sendSYNC 			node: 1 packet: 14df3c0
+Received a packet:	node: 0 packet: 14e19e0 at 204.943000
+sentSYNC 			node: 1 packet: 14df3c0 
+handleSYNC 			node: 0 packet: 14e19e0
+sendSYNC 			node: 0 packet: 14e19e0
+Received a packet:	node: 1 packet: 14e06d0 at 206.386000
+sentSYNC 			node: 0 packet: 14e19e0 
+handleSYNC 			node: 1 packet: 14e06d0
+sendSYNC 			node: 1 packet: 14df3c0
+Received a packet:	node: 0 packet: 14e4000 at 219.275000
+sentSYNC 			node: 1 packet: 14df3c0 
+handleSYNC 			node: 0 packet: 14e4000
+sendSYNC 			node: 0 packet: 14e4000
+Received a packet:	node: 1 packet: 14e2cf0 at 220.700000
+sentSYNC 			node: 0 packet: 14e4000 
+handleSYNC 			node: 1 packet: 14e2cf0
+sendSYNC 			node: 1 packet: 14e2cf0
+Received a packet:	node: 0 packet: 14e4000 at 233.593000
+sentSYNC 			node: 1 packet: 14e2cf0 
+handleSYNC 			node: 0 packet: 14e4000
+sendSYNC 			node: 0 packet: 14e4000
+Received a packet:	node: 1 packet: 14e19e0 at 235.037000
+sentSYNC 			node: 0 packet: 14e4000 
+handleSYNC 			node: 1 packet: 14e19e0
+sendSYNC 			node: 1 packet: 14e2cf0
+Received a packet:	node: 0 packet: 14e5310 at 247.931000
+sentSYNC 			node: 1 packet: 14e2cf0 
+handleSYNC 			node: 0 packet: 14e5310
+sendSYNC 			node: 0 packet: 14e2cf0
+Received a packet:	node: 1 packet: 14e6620 at 249.366000
+sentSYNC 			node: 0 packet: 14e2cf0 
+handleSYNC 			node: 1 packet: 14e6620
+sendSYNC 			node: 1 packet: 14e6620
+Received a packet:	node: 0 packet: 14df3c0 at 262.250000
+sentSYNC 			node: 1 packet: 14e6620 
+handleSYNC 			node: 0 packet: 14df3c0
+sendSYNC 			node: 0 packet: 14e6620
+Received a packet:	node: 1 packet: 14e7930 at 263.694000
+sentSYNC 			node: 0 packet: 14e6620 
+handleSYNC 			node: 1 packet: 14e7930
+sendSYNC 			node: 1 packet: 14e7930
+Received a packet:	node: 0 packet: 14e6620 at 276.594000
+sentSYNC 			node: 1 packet: 14e7930 
+handleSYNC 			node: 0 packet: 14e6620
+sendSYNC 			node: 0 packet: 14e6620
+Received a packet:	node: 1 packet: 14df3c0 at 278.014000
+sentSYNC 			node: 0 packet: 14e6620 
+handleSYNC 			node: 1 packet: 14df3c0
+sendSYNC 			node: 1 packet: 14e7930
+Received a packet:	node: 0 packet: 14e8c40 at 290.915000
+sentSYNC 			node: 1 packet: 14e7930 
+handleSYNC 			node: 0 packet: 14e8c40
+sendSYNC 			node: 0 packet: 14e8c40
+Received a packet:	node: 1 packet: 14e2cf0 at 292.352000
+sentSYNC 			node: 0 packet: 14e8c40 
+handleSYNC 			node: 1 packet: 14e2cf0
+sendSYNC 			node: 1 packet: 14e8c40
+Received a packet:	node: 0 packet: 14e9f50 at 305.243000
+sentSYNC 			node: 1 packet: 14e8c40 
+handleSYNC 			node: 0 packet: 14e9f50
+sendSYNC 			node: 0 packet: 14e9f50
+Received a packet:	node: 1 packet: 14e7930 at 306.685000
+sentSYNC 			node: 0 packet: 14e9f50 
+handleSYNC 			node: 1 packet: 14e7930
+sendSYNC 			node: 1 packet: 14e9f50
+Received a packet:	node: 0 packet: 14eb260 at 319.572000
+sentSYNC 			node: 1 packet: 14e9f50 
+handleSYNC 			node: 0 packet: 14eb260
+sendSYNC 			node: 0 packet: 14eb260
+Received a packet:	node: 1 packet: 14e8c40 at 321.019000
+sentSYNC 			node: 0 packet: 14eb260 
+handleSYNC 			node: 1 packet: 14e8c40
+sendSYNC 			node: 1 packet: 14e8c40
+Received a packet:	node: 0 packet: 14eb260 at 333.905000
+sentSYNC 			node: 1 packet: 14e8c40 
+handleSYNC 			node: 0 packet: 14eb260
+sendSYNC 			node: 0 packet: 14e7930
+Received a packet:	node: 1 packet: 14ec570 at 335.361000
+sentSYNC 			node: 0 packet: 14e7930 
+handleSYNC 			node: 1 packet: 14ec570
+sendSYNC 			node: 1 packet: 14e7930
+Received a packet:	node: 0 packet: 14ed880 at 348.259000
+sentSYNC 			node: 1 packet: 14e7930 
+handleSYNC 			node: 0 packet: 14ed880
+sendSYNC 			node: 0 packet: 14ed880
+Received a packet:	node: 1 packet: 14e9f50 at 349.684000
+sentSYNC 			node: 0 packet: 14ed880 
+handleSYNC 			node: 1 packet: 14e9f50
+sendSYNC 			node: 1 packet: 14ed880
+Received a packet:	node: 0 packet: 14eeb90 at 362.574000
+sentSYNC 			node: 1 packet: 14ed880 
+handleSYNC 			node: 0 packet: 14eeb90
+sendSYNC 			node: 0 packet: 14eeb90
+Received a packet:	node: 1 packet: 14e7930 at 364.007000
+sentSYNC 			node: 0 packet: 14eeb90 
+handleSYNC 			node: 1 packet: 14e7930
+sendSYNC 			node: 1 packet: 14e7930
+Received a packet:	node: 0 packet: 14eeb90 at 376.906000
+sentSYNC 			node: 1 packet: 14e7930 
+handleSYNC 			node: 0 packet: 14eeb90
+sendSYNC 			node: 0 packet: 14e9f50
+Received a packet:	node: 1 packet: 14efea0 at 378.351000
+sentSYNC 			node: 0 packet: 14e9f50 
+handleSYNC 			node: 1 packet: 14efea0
+sendSYNC 			node: 1 packet: 14e9f50
+Received a packet:	node: 0 packet: 14f11b0 at 391.228000
+sentSYNC 			node: 1 packet: 14e9f50 
+handleSYNC 			node: 0 packet: 14f11b0
+sendSYNC 			node: 0 packet: 14e9f50
+Received a packet:	node: 1 packet: 14f24c0 at 392.674000
+sentSYNC 			node: 0 packet: 14e9f50 
+handleSYNC 			node: 1 packet: 14f24c0
+sendSYNC 			node: 1 packet: 14f24c0
+Received a packet:	node: 0 packet: 14e9f50 at 405.555000
+sentSYNC 			node: 1 packet: 14f24c0 
+handleSYNC 			node: 0 packet: 14e9f50
+sendSYNC 			node: 0 packet: 14e9f50
+Received a packet:	node: 1 packet: 14f11b0 at 406.990000
+sentSYNC 			node: 0 packet: 14e9f50 
+handleSYNC 			node: 1 packet: 14f11b0
+sendSYNC 			node: 1 packet: 14ed880
+Received a packet:	node: 0 packet: 14f4ae0 at 419.886000
+sentSYNC 			node: 1 packet: 14ed880 
+handleSYNC 			node: 0 packet: 14f4ae0
+sendSYNC 			node: 0 packet: 14f4ae0
+Received a packet:	node: 1 packet: 14f37d0 at 421.330000
+sentSYNC 			node: 0 packet: 14f4ae0 
+handleSYNC 			node: 1 packet: 14f37d0
+sendSYNC 			node: 1 packet: 14f4ae0
+Received a packet:	node: 0 packet: 14f5df0 at 434.230000
+sentSYNC 			node: 1 packet: 14f4ae0 
+handleSYNC 			node: 0 packet: 14f5df0
+sendSYNC 			node: 0 packet: 14f5df0
+Received a packet:	node: 1 packet: 14ed880 at 435.667000
+sentSYNC 			node: 0 packet: 14f5df0 
+handleSYNC 			node: 1 packet: 14ed880
+sendSYNC 			node: 1 packet: 14f5df0
+Received a packet:	node: 0 packet: 14f7100 at 448.540000
+sentSYNC 			node: 1 packet: 14f5df0 
+handleSYNC 			node: 0 packet: 14f7100
+sendSYNC 			node: 0 packet: 14f7100
+Received a packet:	node: 1 packet: 14f4ae0 at 449.985000
+sentSYNC 			node: 0 packet: 14f7100 
+handleSYNC 			node: 1 packet: 14f4ae0
+sendSYNC 			node: 1 packet: 14f7100
+Received a packet:	node: 0 packet: 14f8410 at 462.869000
+sentSYNC 			node: 1 packet: 14f7100 
+handleSYNC 			node: 0 packet: 14f8410
+sendSYNC 			node: 0 packet: 14f8410
+Received a packet:	node: 1 packet: 14f5df0 at 464.305000
+sentSYNC 			node: 0 packet: 14f8410 
+handleSYNC 			node: 1 packet: 14f5df0
+sendSYNC 			node: 1 packet: 14f8410
+Received a packet:	node: 0 packet: 14f9720 at 477.229000
+sentSYNC 			node: 1 packet: 14f8410 
+handleSYNC 			node: 0 packet: 14f9720
+sendSYNC 			node: 0 packet: 14f9720
+Received a packet:	node: 1 packet: 14f8410 at 478.633000
+sentSYNC 			node: 0 packet: 14f9720 
+handleSYNC 			node: 1 packet: 14f8410
+sendSYNC 			node: 1 packet: 14f5df0
+Received a packet:	node: 0 packet: 14faa30 at 491.532000
+sentSYNC 			node: 1 packet: 14f5df0 
+handleSYNC 			node: 0 packet: 14faa30
+sendSYNC 			node: 0 packet: 14faa30
+Received a packet:	node: 1 packet: 14f7100 at 492.975000
+sentSYNC 			node: 0 packet: 14faa30 
+handleSYNC 			node: 1 packet: 14f7100
+sendSYNC 			node: 1 packet: 14faa30
+Received a packet:	node: 0 packet: 14fbd40 at 505.860000
+sentSYNC 			node: 1 packet: 14faa30 
+handleSYNC 			node: 0 packet: 14fbd40
+sendSYNC 			node: 0 packet: 14fbd40
+Received a packet:	node: 1 packet: 14f5df0 at 507.311000
+sentSYNC 			node: 0 packet: 14fbd40 
+handleSYNC 			node: 1 packet: 14f5df0
+sendSYNC 			node: 1 packet: 14fbd40
+Received a packet:	node: 0 packet: 14faa30 at 520.213000
+sentSYNC 			node: 1 packet: 14fbd40 
+handleSYNC 			node: 0 packet: 14faa30
+sendSYNC 			node: 0 packet: 14faa30
+Received a packet:	node: 1 packet: 14f5df0 at 521.638000
+sentSYNC 			node: 0 packet: 14faa30 
+handleSYNC 			node: 1 packet: 14f5df0
+sendSYNC 			node: 1 packet: 14fbd40
+Received a packet:	node: 0 packet: 14fe360 at 534.546000
+sentSYNC 			node: 1 packet: 14fbd40 
+handleSYNC 			node: 0 packet: 14fe360
+sendSYNC 			node: 0 packet: 14fe360
+Received a packet:	node: 1 packet: 14fd050 at 535.961000
+sentSYNC 			node: 0 packet: 14fe360 
+handleSYNC 			node: 1 packet: 14fd050
+sendSYNC 			node: 1 packet: 14fbd40
+Received a packet:	node: 0 packet: 1500980 at 548.849000
+sentSYNC 			node: 1 packet: 14fbd40 
+handleSYNC 			node: 0 packet: 1500980
+sendSYNC 			node: 0 packet: 1500980
+Received a packet:	node: 1 packet: 14ff670 at 550.287000
+sentSYNC 			node: 0 packet: 1500980 
+handleSYNC 			node: 1 packet: 14ff670
+sendSYNC 			node: 1 packet: 14ff670
+Received a packet:	node: 0 packet: 1500980 at 563.206000
+sentSYNC 			node: 1 packet: 14ff670 
+handleSYNC 			node: 0 packet: 1500980
+sendSYNC 			node: 0 packet: 1500980
+Received a packet:	node: 1 packet: 14fe360 at 564.640000
+sentSYNC 			node: 0 packet: 1500980 
+handleSYNC 			node: 1 packet: 14fe360
+sendSYNC 			node: 1 packet: 14ff670
+Received a packet:	node: 0 packet: 1501c90 at 577.538000
+sentSYNC 			node: 1 packet: 14ff670 
+handleSYNC 			node: 0 packet: 1501c90
+sendSYNC 			node: 0 packet: 14ff670
+Received a packet:	node: 1 packet: 1502fa0 at 578.968000
+sentSYNC 			node: 0 packet: 14ff670 
+handleSYNC 			node: 1 packet: 1502fa0
+sendSYNC 			node: 1 packet: 14ff670
+Received a packet:	node: 0 packet: 15042b0 at 591.851000
+sentSYNC 			node: 1 packet: 14ff670 
+handleSYNC 			node: 0 packet: 15042b0
+sendSYNC 			node: 0 packet: 15042b0
+Received a packet:	node: 1 packet: 14fbd40 at 593.298000
+sentSYNC 			node: 0 packet: 15042b0 
+handleSYNC 			node: 1 packet: 14fbd40
+sendSYNC 			node: 1 packet: 14fbd40
+Received a packet:	node: 0 packet: 15042b0 at 606.178000
+sentSYNC 			node: 1 packet: 14fbd40 
+handleSYNC 			node: 0 packet: 15042b0
+sendSYNC 			node: 0 packet: 15042b0
+Received a packet:	node: 1 packet: 1502fa0 at 607.602000
+sentSYNC 			node: 0 packet: 15042b0 
+handleSYNC 			node: 1 packet: 1502fa0
+sendSYNC 			node: 1 packet: 14fbd40
+Received a packet:	node: 0 packet: 15055c0 at 620.524000
+sentSYNC 			node: 1 packet: 14fbd40 
+handleSYNC 			node: 0 packet: 15055c0
+sendSYNC 			node: 0 packet: 15055c0
+Received a packet:	node: 1 packet: 14ff670 at 621.944000
+sentSYNC 			node: 0 packet: 15055c0 
+handleSYNC 			node: 1 packet: 14ff670
+sendSYNC 			node: 1 packet: 15055c0
+Received a packet:	node: 0 packet: 15068d0 at 634.835000
+sentSYNC 			node: 1 packet: 15055c0 
+handleSYNC 			node: 0 packet: 15068d0
+sendSYNC 			node: 0 packet: 15068d0
+Received a packet:	node: 1 packet: 14fbd40 at 636.280000
+sentSYNC 			node: 0 packet: 15068d0 
+handleSYNC 			node: 1 packet: 14fbd40
+sendSYNC 			node: 1 packet: 15068d0
+Received a packet:	node: 0 packet: 1507be0 at 649.184000
+sentSYNC 			node: 1 packet: 15068d0 
+handleSYNC 			node: 0 packet: 1507be0
+sendSYNC 			node: 0 packet: 1507be0
+Received a packet:	node: 1 packet: 15068d0 at 650.599000
+sentSYNC 			node: 0 packet: 1507be0 
+handleSYNC 			node: 1 packet: 15068d0
+sendSYNC 			node: 1 packet: 14fbd40
+Received a packet:	node: 0 packet: 1508ef0 at 663.516000
+sNS EXITING...
+entSYNC 			node: 1 packet: 14fbd40 
+handleSYNC 			node: 0 packet: 1508ef0
+sendSYNC 			node: 0 packet: 1508ef0
+Received a packet:	node: 1 packet: 15055c0 at 664.924000
+sentSYNC 			node: 0 packet: 1508ef0 
+handleSYNC 			node: 1 packet: 15055c0
+sendSYNC 			node: 1 packet: 1508ef0
+Received a packet:	node: 0 packet: 150a200 at 677.837000
+sentSYNC 			node: 1 packet: 1508ef0 
+handleSYNC 			node: 0 packet: 150a200
+sendSYNC 			node: 0 packet: 150a200
+Received a packet:	node: 1 packet: 14fbd40 at 679.252000
+sentSYNC 			node: 0 packet: 150a200 
+handleSYNC 			node: 1 packet: 14fbd40
+sendSYNC 			node: 1 packet: 15055c0
+Received a packet:	node: 0 packet: 1508ef0 at 692.177000
+sentSYNC 			node: 1 packet: 15055c0 
+handleSYNC 			node: 0 packet: 1508ef0
+sendSYNC 			node: 0 packet: 1508ef0
+Received a packet:	node: 1 packet: 150a200 at 693.597000
+sentSYNC 			node: 0 packet: 1508ef0 
+handleSYNC 			node: 1 packet: 150a200
+command 			node 0 at 700.000000
+command 			node 1 at 700.000000

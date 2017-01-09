@@ -162,9 +162,7 @@ set protolist {
 # Application-Layer Protocols:
 	Message # a protocol to carry text messages
 	Ping 	# Ping
-    	PBC     # PBC
-	#RfidReader #RFID
-	RfidPacket #Pacote RFID
+    PBC     # PBC
 # Wireless:
 	ARP 	# Address Resolution Protocol, network wireless stack
 	GAF 	# Geographic Adaptive Delity, for ad-hoc networks
@@ -283,7 +281,6 @@ PacketHeaderManager instproc allochdr cl {
 #  	{ MPLS off_mpls_ }
 #	{ GAF off_gaf_ } 
 #  	{ LDP off_ldp_ }
-#	{ RfidReader off_rfidReader_ }
 #  } {
 #  	create-packet-header [lindex $pair 0] [lindex $pair 1]
 #  }

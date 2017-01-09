@@ -41,7 +41,8 @@ create-god [expr $val(nn)]
 set chan_1_ [new $val(chan)]
 
 # configure the nodes
-$ns node-config -adhocRouting $val(rp) \
+$ns node-config \
+-adhocRouting $val(rp) \
 -llType $val(ll) \
 -macType $val(mac) \
 -ifqType $val(ifq) \
@@ -52,7 +53,7 @@ $ns node-config -adhocRouting $val(rp) \
 -channelType $val(chan) \
 -topoInstance $topo \
 -agentTrace ON \
--routerTrace OFF \
+-routerTrace ON \
 -macTrace OFF \
 -movementTrace OFF
 #-channel $chan_1_

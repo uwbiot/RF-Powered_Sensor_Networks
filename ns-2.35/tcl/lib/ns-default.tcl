@@ -691,7 +691,7 @@ Snoop set debug_ false
  Mac/802_11 set RTSThreshold_  0               ;# bytes
  Mac/802_11 set ShortRetryLimit_       7               ;# retransmittions
  Mac/802_11 set LongRetryLimit_        4               ;# retransmissions
-#Mac/802_11 set colisao_ 1
+
 Mac/802_11 set bugFix_timer_ true;         # fix for when RTS/CTS not used
 # details at http://www.dei.unipd.it/wdyn/?IDsezione=2435
 
@@ -701,6 +701,8 @@ Mac/802_11 set bugFix_timer_ true;         # fix for when RTS/CTS not used
  Mac/802_11 set MaxChannelTime_ 0.011		;# 11 ms
  Mac/802_11 set MinChannelTime_ 0.005		; # 5 ms
  Mac/802_11 set ChannelTime_ 0.12		;# 120 ms
+
+
 
 Mac/802_11Ext set HeaderDuration_   0.000020  ;# (SERVICE) 16bits last of PLCP header are not included
 Mac/802_11Ext set SymbolDuration_   0.000004  ;# (SERVICE) 16bits last of PLCP header are not included
@@ -755,11 +757,12 @@ Phy set debug_ false
 Phy/WirelessPhy set CPThresh_ 10.0
 Phy/WirelessPhy set CSThresh_ 1.559e-11
 Phy/WirelessPhy set RXThresh_ 3.652e-10
-Phy/WirelessPhy set bandwidth_ 2e3
+Phy/WirelessPhy set bandwidth_ 2e6
 Phy/WirelessPhy set Pt_ 0.28183815
 Phy/WirelessPhy set freq_ 914e+6
 Phy/WirelessPhy set L_ 1.0  
 
+Phy/WirelessPhyExt set CSThresh_ 6.30957e-12           ;# -82 dBm
 Phy/WirelessPhyExt set noise_floor_ 7.96159e-14        ;# -101 dBm
 Phy/WirelessPhyExt set PowerMonitorThresh_ 2.653e-14   ;# -105.7 dBm (noise_floor_ / 3)
 Phy/WirelessPhyExt set Pt_  0.1
@@ -825,41 +828,6 @@ Agent set class_ 0
 ##Agent set class_ 0 now is gone
 
 Agent/Ping set packetSize_ 64
-#RFID
-Agent/RfidReader set packetSize_ 4
-Agent/RfidReader set id_ 12345
-Agent/RfidReader set tagEPC_ 1
-Agent/RfidReader set singularization_ 0
-Agent/RfidReader set service_ 2
-Agent/RfidReader set qValue_ 4
-Agent/RfidReader set memory_ 0
-Agent/RfidReader set rng16_ 0
-Agent/RfidReader set c_ 0.3
-Agent/RfidReader set Qfp_ 4.0
-Agent/RfidReader set t2_ 0.0025
-Agent/RfidReader set messages_ 0
-Agent/RfidReader set trace_ 0
-Agent/RfidReader set mechanism_ 0
-Agent/RfidReader set estConstant_ 3
-Agent/RfidReader set estMethod_ 1
-Agent/RfidReader set iL_ 128
-Agent/RfidReader set backlog_ 2
-Agent/RfidReader set initialFrameSize_ 3
-Agent/RfidReader set frameMultiplier_ 0.67
-
-Agent/RfidTag set packetSize_ 4
-Agent/RfidTag set id_ 0
-Agent/RfidTag set tagEPC_ 10
-Agent/RfidTag set singularization_ 1
-Agent/RfidTag set service_ 0
-Agent/RfidTag set kill_ 0
-Agent/RfidTag set time_ 1
-#Agent/RfidTag set rng16_ 0
-Agent/RfidTag set memory_ 0
-Agent/RfidTag set messages_ 0
-Agent/RfidTag set seed_ 0.2363
-Agent/RfidTag set trace_ 0
-#Agent/RfidTag set slot_ 0
 
 Agent/UDP set packetSize_ 1000
 Agent/UDP instproc done {} { }
